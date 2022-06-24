@@ -4,10 +4,10 @@ public class WindowStateWatcher
 {
     public delegate void Notify();
 
-    private bool _lastState;
-
     private readonly Thread _watcherThread;
     private readonly IntPtr _windowHandle;
+
+    private bool _lastState;
 
     public WindowStateWatcher(IntPtr windowHandle)
     {

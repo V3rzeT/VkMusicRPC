@@ -20,6 +20,8 @@ internal class Program
     private static readonly Timer _updateTimer = new(TimeSpan.FromSeconds(5).TotalMilliseconds);
     private static readonly VkApi _vkApi = new();
     private static readonly WindowStateWatcher _windowStateWatcher = new(NativeMethods.GetConsoleWindow());
+    private static bool _createdNew;
+    private static Mutex _mutex = new(true, "VkMusicRpc", out _createdNew);
 
     private static readonly NotifyIcon _notificationIcon = new()
     {
@@ -31,6 +33,13 @@ internal class Program
     {
         // Notification icon setup
         if (args.Length != 0 && args.Contains("-quietStart")) Task.Factory.StartNew(() => HideToTray());
+
+        // Mutex check
+        if (!_createdNew)
+        {
+            MessageBox.Show("VkMusicRpc is already running", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Environment.Exit(0);
+        }
 
         // Read settings
         if (File.Exists(_settingsFileName))
