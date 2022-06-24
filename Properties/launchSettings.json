@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VkMusicRpc": {
+      "commandName": "Project",
+      "commandLineArgs": "-quietStart"
+    }
+  }
+}
